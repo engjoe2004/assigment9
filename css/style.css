@@ -1,0 +1,133 @@
+/* Custom styles layered on top of Bootstrap 5 */
+:root,
+[data-bs-theme="light"] {
+  --bs-primary: #7c3aed;
+  --bs-primary-rgb: 124, 58, 237;
+  --bs-link-color: #7c3aed;
+  --bs-link-hover-color: #6d28d9;
+}
+img{
+  width: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  min-height: 100vh;
+  background-color: #f6f5ff;
+  background-image:
+    radial-gradient(circle at 15% 0, rgba(124, 58, 237, .09), transparent 40%),
+    radial-gradient(circle at 90% 95%, rgba(37, 99, 235, .08), transparent 40%);
+  background-attachment: fixed;
+}
+[data-bs-theme="dark"] body { background-color: #13111f; }
+
+.btn-primary {
+  --bs-btn-bg: #7c3aed;
+  --bs-btn-border-color: #7c3aed;
+  --bs-btn-hover-bg: #6d28d9;
+  --bs-btn-hover-border-color: #6d28d9;
+  --bs-btn-active-bg: #5b21b6;
+  --bs-btn-active-border-color: #5b21b6;
+  --bs-btn-focus-shadow-rgb: 124, 58, 237;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, .3);
+}
+.bg-primary { background-color: #2563eb !important; } /* stat icon: blue as in the design */
+.text-primary { color: #7c3aed !important; }
+
+.form-control:focus, .form-select:focus, .form-check-input:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 .25rem rgba(124, 58, 237, .18);
+}
+.form-check-input:checked { background-color: #7c3aed; border-color: #7c3aed; }
+
+/* Brand */
+.logo {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+  color: #fff; font-size: 1.15rem;
+}
+.me-avatar {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #1f2937, #6b4a3a);
+  color: #fff; font-weight: 700; font-size: .8rem;
+  border-radius: 16px;
+}
+
+/* Icon boxes */
+.icon-box {
+  width: 40px; height: 40px; border-radius: 10px; flex: none;
+  display: grid; place-items: center; color: #fff; font-size: 1.1rem;
+}
+.icon-box.icon-sm { width: 34px; height: 34px; font-size: .95rem; }
+.stat-card, .contact-card { border-radius: 14px; }
+
+/* Contact cards */
+.contact-card { transition: transform .2s, box-shadow .2s; }
+.contact-card:hover { transform: translateY(-2px); box-shadow: 0 .6rem 1.4rem rgba(30, 20, 80, .14) !important; }
+
+.avatar {
+  position: relative; flex: none;
+  width: 46px; height: 46px; border-radius: 12px;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #fb923c, #ea580c);
+  background-size: cover; background-position: center;
+  color: #fff; font-weight: 700; font-size: 1.15rem;
+}
+.avatar.avatar-sm { width: 34px; height: 34px; border-radius: 9px; font-size: .9rem; }
+.avatar .badge-dot {
+  position: absolute; top: -6px; right: -6px;
+  width: 18px; height: 18px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 9px; color: #fff;
+  border: 2px solid var(--bs-body-bg);
+}
+.phone-chip {
+  width: 20px; height: 20px; border-radius: 6px;
+  display: inline-grid; place-items: center;
+  background: var(--bs-primary-bg-subtle); color: #2563eb; font-size: .65rem;
+}
+.card-actions .btn { --bs-btn-padding-x: .5rem; --bs-btn-padding-y: .25rem; color: var(--bs-secondary-color); }
+.card-actions .btn:hover { background: var(--bs-tertiary-bg); }
+.card-actions .btn.call { color: #16a34a; }
+.card-actions .btn.on-star { color: #f59e0b; background: rgba(245, 158, 11, .16); }
+.card-actions .btn.on-heart { color: #e11d48; background: rgba(225, 29, 72, .12); }
+.card-actions .btn.del:hover { color: #dc3545; }
+
+.side-row {
+  display: flex; align-items: center; gap: .6rem;
+  padding: .5rem; border-radius: 10px;
+  background: var(--bs-tertiary-bg); margin-bottom: .5rem;
+}
+.side-row:last-child { margin-bottom: 0; }
+
+/* Empty state */
+.empty-icon {
+  width: 58px; height: 58px; border-radius: 14px;
+  display: grid; place-items: center; margin: 0 auto 1rem;
+  background: var(--bs-tertiary-bg); font-size: 1.5rem;
+}
+
+/* Photo preview in modal */
+.photo-preview {
+  width: 80px; height: 80px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  background-size: cover; background-position: center;
+  color: #fff; font-size: 2.2rem;
+}
+.photo-preview.has-img i { display: none; }
+
+/* Success / warning popup icons */
+.status-icon {
+  width: 70px; height: 70px; border-radius: 50%;
+  display: grid; place-items: center; margin: 0 auto 1rem;
+  border: 3px solid; font-size: 2.2rem;
+}
+
+.modal.fade .modal-dialog { transition: transform .2s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
