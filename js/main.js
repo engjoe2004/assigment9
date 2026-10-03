@@ -21,6 +21,29 @@ const avatarAttr = (c) => (c.photo ? ` style="background-image:url('${c.photo}')
 const isValidPhone = (v) => /^(\+?20|0)?1[0125]\d{8}$/.test(v.replace(/[\s-]/g, ''));
 const isValidEmail = (v) => !v || /^\S+@\S+\.\S+$/.test(v);
 
+// Turn +20 / 0020 / 20 / bare 1xxxxxxxxx into the local 01xxxxxxxxx form so duplicates can be compared
+function normalizeEgyptianPhone(phone) {
+  phone = String(phone || '').replace(/\D/g, '');
+  if (phone.startsWith('0020')) phone = '0' + phone.slice(4);
+  else if (phone.startsWith('20')) phone = '0' + phone.slice(2);
+  else if (phone.startsWith('1')) phone = '0' + phone;
+  return phone;
+}
+
+// ignoreId = id of the contact being edited (so it doesn't clash with itself)
+function isPhoneDuplicate(phone, ignoreId = null) {
+  const input = normalizeEgyptianPhone(phone);
+  return contacts.some((c) => c.id !== ignoreId && normalizeEgyptianPhone(c.phone) === input);
+}
+
+const PHONE_INVALID_MSG = 'Please enter a valid Egyptian phone number';
+const PHONE_DUPLICATE_MSG = 'This phone number already exists in your contacts';
+function setPhoneError(msg) {
+  const el = $('#phone');
+  el.classList.toggle('is-invalid', !!msg);
+  if (msg) el.nextElementSibling.textContent = msg;
+}
+
 /* ---------- Rendering ---------- */
 function render() {
   const q = $('#search').value.trim().toLowerCase();
@@ -115,9 +138,11 @@ function saveContact() {
   const phone = $('#phone').value.trim();
   const email = $('#email').value.trim();
 
-  const okName = !!name, okPhone = isValidPhone(phone), okEmail = isValidEmail(email);
+  const okName = !!name, okFormat = isValidPhone(phone), okEmail = isValidEmail(email);
+  const isDup = okFormat && isPhoneDuplicate(phone, editingId);
+  const okPhone = okFormat && !isDup;
   $('#name').classList.toggle('is-invalid', !okName);
-  $('#phone').classList.toggle('is-invalid', !okPhone);
+  setPhoneError(okPhone ? '' : isDup ? PHONE_DUPLICATE_MSG : PHONE_INVALID_MSG);
   $('#email').classList.toggle('is-invalid', !okEmail);
   if (!(okName && okPhone && okEmail)) return;
 
@@ -155,7 +180,10 @@ $('#contactForm').addEventListener('submit', (e) => { e.preventDefault(); saveCo
 $('#search').addEventListener('input', render);
 
 $('#phone').addEventListener('input', (e) => {
-  e.target.classList.toggle('is-invalid', !!e.target.value && !isValidPhone(e.target.value));
+  const v = e.target.value;
+  if (!v) return setPhoneError('');
+  if (!isValidPhone(v)) return setPhoneError(PHONE_INVALID_MSG);
+  setPhoneError(isPhoneDuplicate(v, editingId) ? PHONE_DUPLICATE_MSG : '');
 });
 
 $('#photoInput').addEventListener('change', (e) => {
